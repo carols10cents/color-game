@@ -1,6 +1,8 @@
 extern crate piston_window;
+extern crate rand;
 
 use piston_window::*;
+use rand::Rng;
 
 #[derive(Debug,Copy,Clone,PartialEq)]
 struct Candidate {
@@ -18,11 +20,19 @@ fn main() {
         .unwrap();
 
     let mut mouse_position = (0.0, 0.0);
-    let mut candidates = vec![
-        Candidate { coordinates: [300.0, 300.0, 100.0, 100.0], color: [1.0, 0.0, 0.0, 1.0] },
-        Candidate { coordinates: [100.0, 200.0, 100.0, 100.0], color: [0.0, 1.0, 0.0, 1.0] },
-        Candidate { coordinates: [300.0, 100.0, 100.0, 100.0], color: [0.0, 0.0, 1.0, 1.0] },
+    let mut candidate_positions = vec![
+        (100.0, 100.0), (100.0, 250.0), (100.0, 400.0),
+        (250.0, 100.0), (250.0, 250.0), (250.0, 400.0),
+        (400.0, 100.0), (400.0, 250.0), (400.0, 400.0),
     ];
+    let num_candidates = 5;
+    let mut candidates = vec![];
+    for _ in 0..num_candidates {
+        let which_position = rand::thread_rng().gen_range(0, candidate_positions.len());
+        let pos = candidate_positions.remove(which_position);
+        let candidate = Candidate { coordinates: [pos.0, pos.1, 100.0, 100.0], color: [1.0, 0.0, 0.0, 1.0] };
+        candidates.push(candidate);
+    }
 
     for e in window {
         let target_color = match candidates.get(0) {
