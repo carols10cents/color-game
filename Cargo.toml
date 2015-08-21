@@ -2,3 +2,6 @@
 name = "colors"
 version = "0.1.0"
 authors = ["Carol Nichols <carol.nichols@gmail.com>"]
+
+[dependencies]
+piston_window = "0.14.0"
