@@ -18,16 +18,16 @@ fn main() {
         e.draw_2d(|c, g| {
            clear(target_color, g);
 
-           let playing_surface = Ellipse::new([1.0, 1.0, 1.0, 1.0]);
+           let playing_surface = Rectangle::new([1.0, 1.0, 1.0, 1.0]);
            playing_surface.draw([50.0, 50.0, 500.0, 500.0], &c.draw_state, c.transform, g);
 
-           let candidate1 = Ellipse::new(target_color);
+           let candidate1 = Rectangle::new(target_color);
            candidate1.draw([300.0, 300.0, 100.0, 100.0], &c.draw_state, c.transform, g);
 
-           let candidate2 = Ellipse::new([0.0, 1.0, 0.0, 1.0]);
+           let candidate2 = Rectangle::new([0.0, 1.0, 0.0, 1.0]);
            candidate2.draw([100.0, 200.0, 100.0, 100.0], &c.draw_state, c.transform, g);
 
-           let candidate3 = Ellipse::new([0.0, 0.0, 1.0, 1.0]);
+           let candidate3 = Rectangle::new([0.0, 0.0, 1.0, 1.0]);
            candidate3.draw([300.0, 100.0, 100.0, 100.0], &c.draw_state, c.transform, g);
         });
         e.mouse_cursor(|x, y| {
