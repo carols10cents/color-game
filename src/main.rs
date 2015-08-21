@@ -42,13 +42,18 @@ fn main() {
         });
         if let Some(button) = e.press_args() {
             if button == Button::Mouse(MouseButton::Left) {
-                let clicked_on = candidates.iter().filter(|candidate| {
+                if let Some(clicked_on) = candidates.iter().filter(|candidate| {
                     mouse_position.0 > candidate.coordinates[0] &&
                        mouse_position.0 < (candidate.coordinates[0] + candidate.coordinates[2]) &&
                        mouse_position.1 > candidate.coordinates[1] &&
                        mouse_position.1 < (candidate.coordinates[1] + candidate.coordinates[3])
-                }).collect::<Vec<_>>();
-                println!("press {:?}", clicked_on);
+                }).next() {
+                    if clicked_on.color == target_color {
+                        println!("WIN");
+                    } else {
+                        println!("LOSER");
+                    }
+                }
             }
         };
 
