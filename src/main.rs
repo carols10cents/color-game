@@ -2,7 +2,7 @@ extern crate piston_window;
 
 use piston_window::*;
 
-#[derive(Debug,Copy,Clone)]
+#[derive(Debug,Copy,Clone,PartialEq)]
 struct Candidate {
     coordinates: [f64; 4],
     color: [f32; 4],
@@ -19,7 +19,7 @@ fn main() {
 
     let target_color = [1.0, 0.0, 0.0, 1.0];
     let mut mouse_position = (0.0, 0.0);
-    let candidates = vec![
+    let mut candidates = vec![
         Candidate { coordinates: [300.0, 300.0, 100.0, 100.0], color: target_color },
         Candidate { coordinates: [100.0, 200.0, 100.0, 100.0], color: [0.0, 1.0, 0.0, 1.0] },
         Candidate { coordinates: [300.0, 100.0, 100.0, 100.0], color: [0.0, 0.0, 1.0, 1.0] },
@@ -47,8 +47,9 @@ fn main() {
                        mouse_position.0 < (candidate.coordinates[0] + candidate.coordinates[2]) &&
                        mouse_position.1 > candidate.coordinates[1] &&
                        mouse_position.1 < (candidate.coordinates[1] + candidate.coordinates[3])
-                }).next() {
+                }).next().cloned() {
                     if clicked_on.color == target_color {
+                        candidates.retain(|&r| r != clicked_on);
                         println!("WIN");
                     } else {
                         println!("LOSER");
