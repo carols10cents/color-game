@@ -2,6 +2,7 @@ extern crate piston_window;
 
 use piston_window::*;
 
+#[derive(Debug,Copy,Clone)]
 struct Candidate {
     coordinates: [f64; 4],
     color: [f32; 4],
@@ -41,7 +42,13 @@ fn main() {
         });
         if let Some(button) = e.press_args() {
             if button == Button::Mouse(MouseButton::Left) {
-                println!("press {:?}", mouse_position);
+                let clicked_on = candidates.iter().filter(|candidate| {
+                    mouse_position.0 > candidate.coordinates[0] &&
+                       mouse_position.0 < (candidate.coordinates[0] + candidate.coordinates[2]) &&
+                       mouse_position.1 > candidate.coordinates[1] &&
+                       mouse_position.1 < (candidate.coordinates[1] + candidate.coordinates[3])
+                }).collect::<Vec<_>>();
+                println!("press {:?}", clicked_on);
             }
         };
 
