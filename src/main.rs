@@ -10,16 +10,7 @@ struct Candidate {
     color: [f32; 4],
 }
 
-fn main() {
-    let window: PistonWindow = WindowSettings::new(
-            "colors",
-            [600, 600]
-        )
-        .exit_on_esc(true)
-        .build()
-        .unwrap();
-
-    let mut mouse_position = (0.0, 0.0);
+fn generate_candidates() -> Vec<Candidate> {
     let mut candidate_positions = vec![
         (100.0, 100.0), (100.0, 250.0), (100.0, 400.0),
         (250.0, 100.0), (250.0, 250.0), (250.0, 400.0),
@@ -33,7 +24,8 @@ fn main() {
         rand::random(),
         1.0,
     ];
-    let variance = ::std::f32::consts::FRAC_PI_8;
+    let difficulty = 3.0;
+    let variance = ::std::f32::consts::PI / difficulty;
     for i in 0..num_candidates {
         let which_position = rand::thread_rng().gen_range(0, candidate_positions.len());
         let pos = candidate_positions.remove(which_position);
@@ -42,12 +34,26 @@ fn main() {
             color: math::hsv(random_color, variance * i as f32, 1.0, 1.0),
         });
     }
+    candidates
+}
+
+fn main() {
+    let window: PistonWindow = WindowSettings::new(
+            "colors",
+            [600, 600]
+        )
+        .exit_on_esc(true)
+        .build()
+        .unwrap();
+
+    let mut mouse_position = (0.0, 0.0);
+    let mut candidates = generate_candidates();
 
     for e in window {
-        let target_color = match candidates.get(0) {
-            Some(candidate) => candidate.color,
-            None => break,
-        };
+        if candidates.is_empty() {
+            candidates = generate_candidates();
+        }
+        let target_color = candidates[0].color;
         e.draw_2d(|c, g| {
            clear(target_color, g);
 
