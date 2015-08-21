@@ -30,8 +30,15 @@ fn main() {
     for _ in 0..num_candidates {
         let which_position = rand::thread_rng().gen_range(0, candidate_positions.len());
         let pos = candidate_positions.remove(which_position);
-        let candidate = Candidate { coordinates: [pos.0, pos.1, 100.0, 100.0], color: [1.0, 0.0, 0.0, 1.0] };
-        candidates.push(candidate);
+        candidates.push(Candidate {
+            coordinates: [pos.0, pos.1, 100.0, 100.0],
+            color: [
+              rand::random(),
+              rand::random(),
+              rand::random(),
+              1.0,
+             ],
+        });
     }
 
     for e in window {
