@@ -2,6 +2,11 @@ extern crate piston_window;
 
 use piston_window::*;
 
+struct Candidate {
+    coordinates: [f64; 4],
+    color: [f32; 4],
+}
+
 fn main() {
     let window: PistonWindow = WindowSettings::new(
             "colors",
@@ -13,6 +18,11 @@ fn main() {
 
     let target_color = [1.0, 0.0, 0.0, 1.0];
     let mut mouse_position = (0.0, 0.0);
+    let candidates = vec![
+        Candidate { coordinates: [300.0, 300.0, 100.0, 100.0], color: target_color },
+        Candidate { coordinates: [100.0, 200.0, 100.0, 100.0], color: [0.0, 1.0, 0.0, 1.0] },
+        Candidate { coordinates: [300.0, 100.0, 100.0, 100.0], color: [0.0, 0.0, 1.0, 1.0] },
+    ];
 
     for e in window {
         e.draw_2d(|c, g| {
@@ -21,14 +31,10 @@ fn main() {
            let playing_surface = Rectangle::new([1.0, 1.0, 1.0, 1.0]);
            playing_surface.draw([50.0, 50.0, 500.0, 500.0], &c.draw_state, c.transform, g);
 
-           let candidate1 = Rectangle::new(target_color);
-           candidate1.draw([300.0, 300.0, 100.0, 100.0], &c.draw_state, c.transform, g);
-
-           let candidate2 = Rectangle::new([0.0, 1.0, 0.0, 1.0]);
-           candidate2.draw([100.0, 200.0, 100.0, 100.0], &c.draw_state, c.transform, g);
-
-           let candidate3 = Rectangle::new([0.0, 0.0, 1.0, 1.0]);
-           candidate3.draw([300.0, 100.0, 100.0, 100.0], &c.draw_state, c.transform, g);
+           for candidate in &candidates {
+               let r = Rectangle::new(candidate.color);
+               r.draw(candidate.coordinates, &c.draw_state, c.transform, g);
+           }
         });
         e.mouse_cursor(|x, y| {
             mouse_position = (x, y);
