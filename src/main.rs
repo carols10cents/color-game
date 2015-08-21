@@ -53,9 +53,8 @@ fn main() {
                 }).next().cloned() {
                     if clicked_on.color == target_color {
                         candidates.retain(|&r| r != clicked_on);
-                        println!("WIN");
                     } else {
-                        println!("LOSER");
+                        break;
                     }
                 }
             }
