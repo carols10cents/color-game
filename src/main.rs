@@ -27,17 +27,19 @@ fn main() {
     ];
     let num_candidates = 5;
     let mut candidates = vec![];
-    for _ in 0..num_candidates {
+    let random_color = [
+        rand::random(),
+        rand::random(),
+        rand::random(),
+        1.0,
+    ];
+    let variance = ::std::f32::consts::FRAC_PI_8;
+    for i in 0..num_candidates {
         let which_position = rand::thread_rng().gen_range(0, candidate_positions.len());
         let pos = candidate_positions.remove(which_position);
         candidates.push(Candidate {
             coordinates: [pos.0, pos.1, 100.0, 100.0],
-            color: [
-              rand::random(),
-              rand::random(),
-              rand::random(),
-              1.0,
-             ],
+            color: math::hsv(random_color, variance * i as f32, 1.0, 1.0),
         });
     }
 
