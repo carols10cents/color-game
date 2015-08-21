@@ -12,6 +12,7 @@ fn main() {
         .unwrap();
 
     let target_color = [1.0, 0.0, 0.0, 1.0];
+    let mut mouse_position = (0.0, 0.0);
 
     for e in window {
         e.draw_2d(|c, g| {
@@ -29,5 +30,14 @@ fn main() {
            let candidate3 = Ellipse::new([0.0, 0.0, 1.0, 1.0]);
            candidate3.draw([300.0, 100.0, 100.0, 100.0], &c.draw_state, c.transform, g);
         });
+        e.mouse_cursor(|x, y| {
+            mouse_position = (x, y);
+        });
+        if let Some(button) = e.press_args() {
+            if button == Button::Mouse(MouseButton::Left) {
+                println!("press {:?}", mouse_position);
+            }
+        };
+
     }
 }
