@@ -17,15 +17,18 @@ fn main() {
         .build()
         .unwrap();
 
-    let target_color = [1.0, 0.0, 0.0, 1.0];
     let mut mouse_position = (0.0, 0.0);
     let mut candidates = vec![
-        Candidate { coordinates: [300.0, 300.0, 100.0, 100.0], color: target_color },
+        Candidate { coordinates: [300.0, 300.0, 100.0, 100.0], color: [1.0, 0.0, 0.0, 1.0] },
         Candidate { coordinates: [100.0, 200.0, 100.0, 100.0], color: [0.0, 1.0, 0.0, 1.0] },
         Candidate { coordinates: [300.0, 100.0, 100.0, 100.0], color: [0.0, 0.0, 1.0, 1.0] },
     ];
 
     for e in window {
+        let target_color = match candidates.get(0) {
+            Some(candidate) => candidate.color,
+            None => break,
+        };
         e.draw_2d(|c, g| {
            clear(target_color, g);
 
