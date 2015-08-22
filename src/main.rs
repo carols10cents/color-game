@@ -1,5 +1,6 @@
 extern crate piston_window;
 extern crate rand;
+extern crate find_folder;
 
 use piston_window::*;
 use rand::Rng;
@@ -48,6 +49,12 @@ fn main() {
         .build()
         .unwrap();
 
+    let assets = find_folder::Search::ParentsThenKids(3, 3)
+        .for_folder("assets").unwrap();
+    let ref font = assets.join("FiraSans-Regular.ttf");
+    let factory = window.factory.borrow().clone();
+    let mut glyphs = Glyphs::new(font, factory).unwrap();
+
     let mut mouse_position = (0.0, 0.0);
     let mut difficulty = 3.0;
     let mut candidates = generate_candidates(difficulty);
@@ -63,6 +70,14 @@ fn main() {
 
            let playing_surface = Rectangle::new([1.0, 1.0, 1.0, 1.0]);
            playing_surface.draw([50.0, 50.0, 500.0, 500.0], &c.draw_state, c.transform, g);
+
+           let transform = c.transform.trans(10.0, 35.0);
+           text::Text::colored([1.0, 1.0, 1.0, 1.0], 32).draw(
+               &format!("Level {}", difficulty - 2.0),
+               &mut glyphs,
+               &c.draw_state,
+               transform, g
+           );
 
            for candidate in &candidates {
                let r = Rectangle::new(candidate.color);

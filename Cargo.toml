@@ -6,3 +6,4 @@ authors = ["Carol (Nichols || Goulding) <carol.nichols@gmail.com>", "Jake Gouldi
 [dependencies]
 piston_window = "0.14.0"
 rand = "*"
+find_folder = "*"
