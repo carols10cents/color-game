@@ -8,3 +8,5 @@
 * Levels instead of exit
 * Score instead of exit
 * Movement
+* High score list
+* Play again

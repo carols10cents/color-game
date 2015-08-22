@@ -10,7 +10,7 @@ struct Candidate {
     color: [f32; 4],
 }
 
-fn generate_candidates() -> Vec<Candidate> {
+fn generate_candidates(difficulty: f32) -> Vec<Candidate> {
     let mut candidate_positions = vec![
         (100.0, 100.0), (100.0, 250.0), (100.0, 400.0),
         (250.0, 100.0), (250.0, 250.0), (250.0, 400.0),
@@ -18,13 +18,15 @@ fn generate_candidates() -> Vec<Candidate> {
     ];
     let num_candidates = 5;
     let mut candidates = vec![];
-    let random_color = [
-        rand::random(),
-        rand::random(),
-        rand::random(),
+    let random_component = rand::thread_rng().gen_range(450, 900) as f32 / 1000.0;
+    let random_index = rand::thread_rng().gen_range(0, 3);
+    let mut random_color = [
+        0.3,
+        0.3,
+        0.3,
         1.0,
     ];
-    let difficulty = 3.0;
+    random_color[random_index] = random_component;
     let variance = ::std::f32::consts::PI / difficulty;
     for i in 0..num_candidates {
         let which_position = rand::thread_rng().gen_range(0, candidate_positions.len());
@@ -47,11 +49,13 @@ fn main() {
         .unwrap();
 
     let mut mouse_position = (0.0, 0.0);
-    let mut candidates = generate_candidates();
+    let mut difficulty = 3.0;
+    let mut candidates = generate_candidates(difficulty);
 
     for e in window {
         if candidates.is_empty() {
-            candidates = generate_candidates();
+            difficulty += 1.0;
+            candidates = generate_candidates(difficulty);
         }
         let target_color = candidates[0].color;
         e.draw_2d(|c, g| {
