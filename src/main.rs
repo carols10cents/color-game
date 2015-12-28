@@ -72,7 +72,7 @@ fn main() {
            playing_surface.draw([50.0, 50.0, 500.0, 500.0], &c.draw_state, c.transform, g);
 
            let transform = c.transform.trans(10.0, 35.0);
-           text::Text::colored([1.0, 1.0, 1.0, 1.0], 32).draw(
+           text::Text::new_color([1.0, 1.0, 1.0, 1.0], 32).draw(
                &format!("Level {}", difficulty - 2.0),
                &mut glyphs,
                &c.draw_state,
