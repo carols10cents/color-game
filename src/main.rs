@@ -73,23 +73,23 @@ fn main() {
         }
         let target_color = candidates[0].color;
         e.draw_2d(|c, g| {
-           clear(target_color, g);
+            clear(target_color, g);
 
-           let playing_surface = Rectangle::new([1.0, 1.0, 1.0, 1.0]);
-           playing_surface.draw([50.0, 50.0, 500.0, 500.0], &c.draw_state, c.transform, g);
+            let playing_surface = Rectangle::new([1.0, 1.0, 1.0, 1.0]);
+            playing_surface.draw([50.0, 50.0, 500.0, 500.0], &c.draw_state, c.transform, g);
 
-           let transform = c.transform.trans(10.0, 35.0);
-           text::Text::new_color([1.0, 1.0, 1.0, 1.0], 32).draw(
-               &format!("Level {}", difficulty - 2.0),
-               &mut glyphs,
-               &c.draw_state,
-               transform, g
-           );
+            let transform = c.transform.trans(10.0, 35.0);
+            text::Text::new_color([1.0, 1.0, 1.0, 1.0], 32).draw(
+                &format!("Level {}", difficulty - 2.0),
+                &mut glyphs,
+                &c.draw_state,
+                transform, g
+            );
 
-           for candidate in &candidates {
-               let r = Rectangle::new(candidate.color);
-               r.draw(candidate.coordinates, &c.draw_state, c.transform, g);
-           }
+            for candidate in &candidates {
+                let r = Rectangle::new(candidate.color);
+                r.draw(candidate.coordinates, &c.draw_state, c.transform, g);
+            }
         });
         e.mouse_cursor(|x, y| {
             mouse_position = (x, y);
@@ -98,9 +98,9 @@ fn main() {
             if button == Button::Mouse(MouseButton::Left) {
                 if let Some(clicked_on) = candidates.iter().filter(|candidate| {
                     mouse_position.0 > candidate.coordinates[0] &&
-                       mouse_position.0 < (candidate.coordinates[0] + candidate.coordinates[2]) &&
-                       mouse_position.1 > candidate.coordinates[1] &&
-                       mouse_position.1 < (candidate.coordinates[1] + candidate.coordinates[3])
+                        mouse_position.0 < (candidate.coordinates[0] + candidate.coordinates[2]) &&
+                        mouse_position.1 > candidate.coordinates[1] &&
+                        mouse_position.1 < (candidate.coordinates[1] + candidate.coordinates[3])
                 }).next().cloned() {
                     if clicked_on.color == target_color {
                         candidates.retain(|&r| r != clicked_on);
