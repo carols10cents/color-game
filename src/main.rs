@@ -34,10 +34,17 @@ fn generate_candidates(difficulty: f32) -> Vec<Candidate> {
         let pos = candidate_positions.remove(which_position);
         candidates.push(Candidate {
             coordinates: [pos.0, pos.1, 100.0, 100.0],
-            color: math::hsv(random_color, variance * i as f32, 1.0, 1.0),
+            color: restrict_color(math::hsv(random_color, variance * i as f32, 1.0, 1.0)),
         });
     }
     candidates
+}
+
+fn restrict_color(mut color: [f32; 4]) -> [f32; 4] {
+    for c in color.iter_mut() {
+        *c = 0.0f32.max(1.0f32.min(*c))
+    }
+    color
 }
 
 fn main() {
